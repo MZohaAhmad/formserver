@@ -1,7 +1,23 @@
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").trim();
+const rawBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").trim();
+
+function getApiBaseUrl() {
+  if (rawBaseUrl) {
+    return rawBaseUrl.replace(/\/+$/, "");
+  }
+
+  // Helpful local default so `npm run dev` works without extra setup.
+  if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+    return "http://localhost:3002";
+  }
+
+  throw new Error(
+    "Missing API configuration. Set VITE_API_BASE_URL to your backend HTTPS URL."
+  );
+}
 
 export const registerUser = async (userData) => {
-  const response = await fetch(`${API_BASE_URL}/register`, {
+  const apiBaseUrl = getApiBaseUrl();
+  const response = await fetch(`${apiBaseUrl}/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData)

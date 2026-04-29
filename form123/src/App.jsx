@@ -106,6 +106,10 @@ function App() {
           email: "This email is already in use."
         }));
         setApiMessage("Submission blocked: email must be unique.");
+      } else if (error.message?.includes("Missing API configuration")) {
+        setApiMessage(
+          "API is not configured. Set VITE_API_BASE_URL in Vercel to your backend HTTPS URL."
+        );
       } else {
         setApiMessage("Something went wrong while saving the form.");
       }
