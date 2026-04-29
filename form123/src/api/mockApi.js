@@ -1,4 +1,5 @@
 const rawBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").trim();
+const DEFAULT_PROD_API_BASE_URL = "https://formserver-lac.vercel.app";
 
 function getApiBaseUrl() {
   if (rawBaseUrl) {
@@ -10,9 +11,7 @@ function getApiBaseUrl() {
     return "http://localhost:3002";
   }
 
-  throw new Error(
-    "Missing API configuration. Set VITE_API_BASE_URL to your backend HTTPS URL."
-  );
+  return DEFAULT_PROD_API_BASE_URL;
 }
 
 export const registerUser = async (userData) => {
